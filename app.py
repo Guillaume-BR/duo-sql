@@ -22,6 +22,7 @@ beverage,price
 orange juice,2.5
 Expresso,2
 Tea,3
+Cappuccino,1.6
 '''
 
 beverages = pd.read_csv(io.StringIO(csv))
@@ -31,6 +32,7 @@ food_item,food_price
 cookie juice,2.5
 chocolatine,2
 muffin,3
+croissant,1.6
 '''
 
 food_items = pd.read_csv(io.StringIO(csv2))
@@ -41,7 +43,7 @@ CROSS JOIN food_items
 """
 
 
-sql_query = st.text_area("Entrez du texte ici", key = "user_input")
+sql_query = st.text_area("Entrez du texte là", key = "user_input")
 if sql_query:
     result = duckdb.query(sql_query).df()
     st.dataframe(result)
