@@ -8,7 +8,7 @@ with st.sidebar:
     "Que veux tu réviser  ?",
     ("Joins", "Group By", "Windows Functions"),
     index=None,
-    placeholder="Select contact method...",
+    placeholder="Choisis une option",
 )
 
     st.write("Options sélectionnée :", option)
