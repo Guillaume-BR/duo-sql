@@ -8,13 +8,14 @@ with st.sidebar:
     "Que veux tu réviser  ?",
     ("Joins", "Group By", "Windows Functions"),
     index=None,
-    placeholder="Choisis une option",
+    placeholder="Choisis une option s'il te plait",
 )
 
     st.write("Options sélectionnée :", option)
 
 st.write("""# Duo SQL App
          Pratiquez le SQL et progresser grâce au système de répétition espacée !
+         Sois fort
          """)
 
 csv = '''
