@@ -2,20 +2,21 @@ import streamlit as st
 import pandas as pd
 import duckdb
 
-st.write("""# Duo SQL App
-         Pratiquez le SQL et progresser grâce au système de répétition espacée !
-         """)
-
-option = st.selectbox(
+with st.sidebar:
+    option = st.selectbox(
     "Que veux tu réviser  ?",
     ("Joins", "Group By", "Windows Functions"),
     index=None,
     placeholder="Select contact method...",
 )
 
-st.write("Options sélectionnée :", option)
+    st.write("Options sélectionnée :", option)
 
-st.write("You selected:", option)
+st.write("""# Duo SQL App
+         Pratiquez le SQL et progresser grâce au système de répétition espacée !
+         """)
+
+
 
 data = {"a": [1, 2, 3], "b": [4, 5, 6]}
 
