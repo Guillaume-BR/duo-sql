@@ -18,6 +18,7 @@ with st.sidebar:
     exercice = con.execute(f"SELECT * FROM memory_state WHERE theme = '{option}'").df()
     st.write("Exercice du thème sélectionné :")
     st.dataframe(exercice)
+
 st.write(
     """# Duo SQL App
          Pratiquez le SQL et progresser grâce au système de répétition espacée !
@@ -31,23 +32,20 @@ CROSS JOIN food_items
 """
 
 
-#sql_query = st.text_area("Entrez du texte là", key="user_input")
-#if sql_query:
-#    result = duckdb.query(sql_query).df()
-#    st.dataframe(result)
-#
-#tab2, tab3 = st.tabs(["Tables", "Solutions"])
-#
-#with tab2:
-#    st.write("### Beverages Table")
-#    st.dataframe(beverages)
-#
-#    st.write("### Food Items Table")
-#    st.dataframe(food_items)
-#
-#    st.write("attendus:")
-#    st.dataframe(duckdb.query(answer).df())
-#
+sql_query = st.text_area("Entrez du texte là", key="user_input")
+if sql_query:
+    result = con.execute(sql_query).df()
+    st.dataframe(result)
+
+tab2, tab3 = st.tabs(["Tables", "Solutions"])
+
+with tab2:
+   exercice_tables = exercice.loc[0,"tables"]
+   for table in exercice_tables:
+     st.write(f"table: {table}")
+     df_table = con.execute(f"SELECT * FROM {table}").df()
+     st.dataframe(df_table)
+
 #with tab3:
 #    st.write("### Solution") 
 #    st.code(answer, language="sql")
