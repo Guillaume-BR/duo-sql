@@ -15,4 +15,4 @@ jobs :
           pip install black
       - name : Run black
         run : |
-          black --check --verbose.
+          black --check --verbose .
