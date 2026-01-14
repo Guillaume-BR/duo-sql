@@ -1,0 +1,18 @@
+name : check_code_quality
+on : pull_request
+jobs :
+  black:
+    runs-on : ubuntu-latest
+    steps :
+      - uses : actions/checkout@v3
+      - name : Set up Python
+        uses : actions/setup-python@v4
+        with :
+          python-version : '3.9'
+      - name : Install dependencies
+        run : | #multiline
+          python -m pip install --upgrade pip
+          pip install black
+      - name : Run black
+        run : |
+          black --check --verbose .
