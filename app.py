@@ -3,65 +3,54 @@ import streamlit as st
 import pandas as pd
 import duckdb
 
+con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
+
+st.markdown(
+    """# Duo SQL App
+       ## Pratiquez le SQL et progressez grâce au système de répétition espacée !
+         """
+)
+
 with st.sidebar:
     option = st.selectbox(
         "Que veux tu réviser  ?",
-        ("Joins", "Group By", "Windows Functions"),
+        ["Joins", "Group By", "Windows Functions"],
         index=None,
         placeholder="Choisis une option",
     )
 
     st.write("Options sélectionnée :", option)
 
-st.write(
-    """# Duo SQL App
-         Pratiquez le SQL et progresser grâce au système de répétition espacée !
-         """
-)
+    exercice = con.execute(f"SELECT * FROM memory_state WHERE theme = '{option}'").df().sort_values("last_reviewed").reset_index(drop=True)
+    st.write("Exercice du thème sélectionné :")
+    st.dataframe(exercice)
+    
+    exercice_name = exercice.loc[0, "exercice_name"]
+    with open(f"answers/{exercice_name}.sql", "r") as file:
+        ANSWER = file.read()
+    
+    solution_df = con.execute(ANSWER).df()
 
-csv = """
-beverage,price
-orange juice,2.5
-Expresso,2
-Tea,3
-Cappuccino,1.6
-"""
-
-beverages = pd.read_csv(io.StringIO(csv))
-
-csv2 = """
-food_item,food_price
-cookie juice,2.5
-chocolatine,2
-muffin,3
-croissant,1.6
-"""
-
-food_items = pd.read_csv(io.StringIO(csv2))
-
-answer = """
-SELECT * FROM beverages
-CROSS JOIN food_items
-"""
-
-
+st.header("Tapez votre code SQL ci-dessous")
 sql_query = st.text_area("Entrez du texte là", key="user_input")
 if sql_query:
-    result = duckdb.query(sql_query).df()
+    result = con.execute(sql_query).df()
     st.dataframe(result)
 
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        st.write("Certaines colonnes sont manquantes")
+ 
 tab2, tab3 = st.tabs(["Tables", "Solutions"])
 
 with tab2:
-    st.write("### Beverages Table")
-    st.dataframe(beverages)
-
-    st.write("### Food Items Table")
-    st.dataframe(food_items)
-
-    st.write("attendus:")
-    st.dataframe(duckdb.query(answer).df())
+    exercice_tables = exercice.loc[0, "tables"]
+    for table in exercice_tables:
+        st.write(f"table: {table}")
+        df_table = con.execute(f"SELECT * FROM {table}").df()
+        st.dataframe(df_table)
 
 with tab3:
-    st.write("### Solution")
-    st.code(answer, language="sql")
+    st.code(ANSWER, language="sql")
