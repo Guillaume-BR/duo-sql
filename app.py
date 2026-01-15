@@ -14,14 +14,14 @@ st.markdown(
 with st.sidebar:
     option = st.selectbox(
         "Que veux tu réviser  ?",
-        ("Joins", "Group By", "Windows Functions"),
+        ["Joins", "Group By", "Windows Functions"],
         index=None,
         placeholder="Choisis une option",
     )
 
     st.write("Options sélectionnée :", option)
 
-    exercice = con.execute(f"SELECT * FROM memory_state WHERE theme = '{option}'").df()
+    exercice = con.execute(f"SELECT * FROM memory_state WHERE theme = '{option}'").df().sort_values("last_reviewed").reset_index(drop=True)
     st.write("Exercice du thème sélectionné :")
     st.dataframe(exercice)
     
