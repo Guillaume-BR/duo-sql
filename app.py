@@ -1,7 +1,20 @@
 import io
+import logging
+import os
 import streamlit as st
 import pandas as pd
 import duckdb
+
+if "data" not in os.listdir():
+    logging.debug("os.listdir()")
+    logging.error("Creating data/ folder")
+    os.mkdir("data")
+
+if "sql_exercices_sql.duckdb" not in os.listdir("data"):
+    logging.debug("os.listdir('data/')")
+    logging.error("Creating data/sql_exercices_sql.duckdb database")
+    exec(open("init_db.py").read())
+    # subprocess.run(["python", "init_db.py"])
 
 con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
 

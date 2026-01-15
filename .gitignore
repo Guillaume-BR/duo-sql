@@ -3,5 +3,6 @@ __pycache__/
 *.pyc
 .env
 test_db.py
+data/
 
 *.csv
