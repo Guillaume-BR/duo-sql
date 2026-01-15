@@ -5,6 +5,12 @@ import duckdb
 
 con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
 
+st.markdown(
+    """# Duo SQL App
+       ## Pratiquez le SQL et progressez grâce au système de répétition espacée !
+         """
+)
+
 with st.sidebar:
     option = st.selectbox(
         "Que veux tu réviser  ?",
@@ -18,19 +24,25 @@ with st.sidebar:
     exercice = con.execute(f"SELECT * FROM memory_state WHERE theme = '{option}'").df()
     st.write("Exercice du thème sélectionné :")
     st.dataframe(exercice)
+    
+    exercice_name = exercice.loc[0, "exercice_name"]
+    with open(f"answers/{exercice_name}.sql", "r") as file:
+        ANSWER = file.read()
+    
+    solution_df = con.execute(ANSWER).df()
 
-st.write(
-    """# Duo SQL App
-         Pratiquez le SQL et progresser grâce au système de répétition espacée !
-         """
-)
-
-
+st.header("Tapez votre code SQL ci-dessous")
 sql_query = st.text_area("Entrez du texte là", key="user_input")
 if sql_query:
     result = con.execute(sql_query).df()
     st.dataframe(result)
 
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        st.write("Certaines colonnes sont manquantes")
+ 
 tab2, tab3 = st.tabs(["Tables", "Solutions"])
 
 with tab2:
@@ -41,7 +53,4 @@ with tab2:
         st.dataframe(df_table)
 
 with tab3:
-   exercice_name = exercice.loc[0, "exercice_name"]
-   with open(f"answers/{exercice_name}.sql", "r") as file:
-       ANSWER = file.read()
-   st.code(ANSWER, language="sql")
+    st.code(ANSWER, language="sql")
