@@ -67,3 +67,5 @@ size = pd.read_csv(io.StringIO(size))
 trademark = pd.read_csv(io.StringIO(trademark))
 con.execute("CREATE OR REPLACE TABLE size AS SELECT * FROM size")
 con.execute("CREATE OR REPLACE TABLE trademark AS SELECT * FROM trademark")
+
+con.close()
