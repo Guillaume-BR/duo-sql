@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import duckdb
 
-con = duckdb.connect(database = 'data/sql_exercices_sql.duckdb', read_only = False)
+con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
 
 with st.sidebar:
     option = st.selectbox(
@@ -26,12 +26,6 @@ st.write(
 )
 
 
-answer = """
-SELECT * FROM beverages
-CROSS JOIN food_items
-"""
-
-
 sql_query = st.text_area("Entrez du texte là", key="user_input")
 if sql_query:
     result = con.execute(sql_query).df()
@@ -40,13 +34,14 @@ if sql_query:
 tab2, tab3 = st.tabs(["Tables", "Solutions"])
 
 with tab2:
-   exercice_tables = exercice.loc[0,"tables"]
-   for table in exercice_tables:
-     st.write(f"table: {table}")
-     df_table = con.execute(f"SELECT * FROM {table}").df()
-     st.dataframe(df_table)
+    exercice_tables = exercice.loc[0, "tables"]
+    for table in exercice_tables:
+        st.write(f"table: {table}")
+        df_table = con.execute(f"SELECT * FROM {table}").df()
+        st.dataframe(df_table)
 
-#with tab3:
-#    st.write("### Solution") 
-#    st.code(answer, language="sql")
-#
+with tab3:
+   exercice_name = exercice.loc[0, "exercice_name"]
+   with open(f"answers/{exercice_name}.sql", "r") as file:
+       ANSWER = file.read()
+   st.code(ANSWER, language="sql")
