@@ -17,6 +17,30 @@ if "sql_exercices_sql.duckdb" not in os.listdir("data"):
     exec(open("init_db.py").read())
     # subprocess.run(["python", "init_db.py"])
 
+
+def verify_sql_results(sql_query: str) -> None:
+    """
+    Verify the results of a SQL query against the expected solution.
+
+    :param sql_query: The SQL query to be executed and verified.
+    :type sql_query: str
+    """
+    result = con.execute(sql_query).df()
+    st.dataframe(result)
+
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        st.write("Certaines colonnes sont manquantes")
+
+    n_lines_diff = result.shape[0] - solution_df.shape[0]
+    if n_lines_diff != 0:
+        st.write(
+            f"Le nombre de lignes est différent de la solution par {n_lines_diff} lignes."
+        )
+
+
 con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
 
 st.markdown(
