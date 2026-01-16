@@ -11,7 +11,7 @@ con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
 
 data = {
     "theme": ["Joins", "Joins"],
-    "exercice_name": ["beverages_and_food","size_and_trademark"],
+    "exercice_name": ["beverages_and_food", "size_and_trademark"],
     "tables": [["beverages", "food_items"], ["size", "trademark"]],
     "last_reviewed": ["2000-01-02", "2000-01-01"],
 }
@@ -24,7 +24,7 @@ con.execute("CREATE OR REPLACE TABLE memory_state AS SELECT * FROM memory_state_
 # CROSS JOIN EXERCISE TABLES
 # ----------------------------------------------
 
-beverages= """
+beverages = """
 beverage,price
 orange juice,2.5
 Expresso,2
@@ -47,21 +47,21 @@ food_items = pd.read_csv(io.StringIO(food_items))
 con.execute("CREATE OR REPLACE TABLE food_items AS SELECT * FROM food_items")
 
 
-size = '''
+size = """
 size
 XS
 M
 L
 XL
-'''
+"""
 
-trademark = '''
+trademark = """
 trademark
 Nike
 Asphalte
 Abercrombie
 Lewis
-'''
+"""
 
 size = pd.read_csv(io.StringIO(size))
 trademark = pd.read_csv(io.StringIO(trademark))
