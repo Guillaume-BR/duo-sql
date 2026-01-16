@@ -3,7 +3,9 @@ import os
 import streamlit as st
 import pandas as pd
 import duckdb
+from datetime import datetime, timedelta
 
+# Set up logging
 if "data" not in os.listdir():
     logging.error("os.listdir()")
     logging.error("Creating data/ folder")
