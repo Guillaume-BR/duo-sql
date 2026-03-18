@@ -1,0 +1,106 @@
+produit_id,prix_unitaire,nom
+1,620.21,OnePlus 9
+2,318.39,Xiaomi Mi 11
+3,201.96,Samsung Galaxy S21
+4,469.94,Huawei P40 Pro
+5,226.95,Huawei P40 Pro
+6,832.16,iPhone 13
+7,951.34,Sony Xperia 5 III
+8,694.39,Motorola Edge
+9,325.17,Nokia 8.3
+10,690.97,Samsung Galaxy S21
+11,480.35,Motorola Edge
+12,313.23,Huawei P40 Pro
+13,884.87,Xiaomi Mi 11
+14,401.77,Huawei P40 Pro
+15,898.16,iPhone 13
+16,399.38,MacBook Pro
+17,290.58,HP Spectre x360
+18,604.72,MacBook Pro
+19,622.88,HP Spectre x360
+20,293.45,Lenovo ThinkPad
+21,524.23,Dell XPS 15
+22,168.85,LG Gram
+23,555.48,Microsoft Surface Laptop
+24,847.41,Dell XPS 15
+25,751.81,Dell XPS 15
+26,676.77,LG Gram
+27,306.44,Acer Predator Helios
+28,416.0,MSI Prestige
+29,356.09,LG Gram
+30,989.05,Lenovo ThinkPad
+31,893.41,Robe d'été
+32,729.52,Chemise en lin
+33,264.73,Pull en laine
+34,96.63,Blouse à volants
+35,166.24,Blouse à volants
+36,683.51,Jeans slim
+37,56.42,Jeans slim
+38,274.3,Robe d'été
+39,694.49,Blazer ajusté
+40,679.48,Chemise en lin
+41,195.34,Robe d'été
+42,514.3,Pantalon chino
+43,201.16,Blazer ajusté
+44,236.52,Veste en cuir
+45,870.52,Veste en cuir
+46,566.65,Bracelet en métal
+47,353.48,Sac à dos moderne
+48,576.19,Sac à dos moderne
+49,128.86,Ceinture en cuir
+50,891.34,Écharpe en soie
+51,750.63,Ceinture en cuir
+52,273.99,Portefeuille en cuir
+53,97.21,Lunettes de soleil
+54,13.01,Sac à dos moderne
+55,520.75,Lunettes de soleil
+56,283.81,Cravate en soie
+57,559.52,Boucles d'oreilles
+58,438.19,Écharpe en soie
+59,152.23,Chapeau en feutre
+60,491.01,Portefeuille en cuir
+61,813.34,Commode à tiroirs
+62,978.15,Canapé modulaire
+63,169.79,Buffet en bois
+64,719.57,Buffet en bois
+65,239.82,Canapé modulaire
+66,421.3,Étagère murale
+67,46.54,Table à manger en bois
+68,733.32,Table basse moderne
+69,616.83,Fauteuil inclinable
+70,820.08,Lit king-size
+71,370.69,Table à manger en bois
+72,547.54,Table à manger en bois
+73,66.64,Table basse moderne
+74,565.28,Table basse moderne
+75,832.48,Lit king-size
+76,890.23,Horloge murale
+77,500.37,Horloge murale
+78,793.14,Vase en céramique
+79,842.18,Plante d'intérieur
+80,952.98,Tableau abstrait
+81,860.02,Coussins décoratifs
+82,384.86,Vase en céramique
+83,748.88,Plante d'intérieur
+84,446.93,Statuette en bronze
+85,249.75,Miroir encadré
+86,560.99,Horloge murale
+87,128.29,Horloge murale
+88,824.19,Miroir encadré
+89,789.29,Suspension lumineuse
+90,129.01,Coussins décoratifs
+91,223.18,produit_local
+92,969.22,circuit_court
+93,641.75,produit_local
+94,434.39,produit_local
+95,368.97,produit_local
+96,669.79,produit_local
+97,741.22,produit_local
+98,149.07,produit_local
+99,934.2,circuit_court
+100,174.71,fournisseur_local
+101,800.82,circuit_court
+102,436.37,produit_local
+103,276.11,fournisseur_local
+104,748.03,fournisseur_local
+105,982.1,produit_local
