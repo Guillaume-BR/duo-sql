@@ -9,8 +9,8 @@ WITH total_matches AS (
 results AS (
     SELECT
         CASE 
-            WHEN GoalsHomeTeam > GoalsAwayTeam THEN "Victoire à domicile"
-            WHEN GoalsHomeTeam < GoalsAwayTeam THEN "Victoire à l'extérieur"
+            WHEN GoalsHomeTeam > GoalsAwayTeam THEN 'Victoire à domicile'
+            WHEN GoalsHomeTeam < GoalsAwayTeam THEN 'Victoire à l''extérieur'
             ELSE "Match nul"
         END AS Resultat
     FROM football
