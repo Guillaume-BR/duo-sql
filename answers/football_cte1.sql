@@ -11,7 +11,7 @@ results AS (
         CASE 
             WHEN GoalsHomeTeam > GoalsAwayTeam THEN 'Victoire à domicile'
             WHEN GoalsHomeTeam < GoalsAwayTeam THEN 'Victoire à l''extérieur'
-            ELSE "Match nul"
+            ELSE 'Match nul'
         END AS Resultat
     FROM football
 )
