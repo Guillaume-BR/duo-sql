@@ -13,10 +13,14 @@ if "data" not in os.listdir():
 
 if "sql_exercices.duckdb" not in os.listdir("data"):
     logging.error("os.listdir('data/')")
-    logging.error("Creating data/sql_exercices.duckdb database")
+    logging.error("Creating bdd/sql_exercices.duckdb database")
     exec(open("init_db.py").read())
     # subprocess.run(["python", "init_db.py"])
 
+
+if "db_initialized" not in st.session_state:
+    exec(open("init_db.py").read())
+    st.session_state["db_initialized"] = True
 
 def verify_sql_results(sql_query: str) -> None:
     """
@@ -25,8 +29,12 @@ def verify_sql_results(sql_query: str) -> None:
     :param sql_query: The SQL query to be executed and verified.
     :type sql_query: str
     """
-    result = con.execute(sql_query).df()
-    st.dataframe(result)
+    try:
+        result = con.execute(sql_query).df()
+        st.dataframe(result)
+    except Exception as e:
+        st.warning(f"Il y a une erreur dans ta requête SQL : {e}")
+        return
 
     try:
         result = result[solution_df.columns]
@@ -41,7 +49,7 @@ def verify_sql_results(sql_query: str) -> None:
         )
 
 
-con = duckdb.connect(database="data/sql_exercices.duckdb", read_only=False)
+con = duckdb.connect(database="bdd/sql_exercices.duckdb", read_only=False)
 
 st.markdown(
     """# Duo SQL App \n
@@ -49,6 +57,9 @@ st.markdown(
     """
 )
 
+#--------------------------------------
+# SIDEBAR
+#--------------------------------------
 with st.sidebar:
     available_themes = con.execute("SELECT DISTINCT theme FROM memory_state").df()
     option = st.selectbox(
@@ -79,10 +90,11 @@ with st.sidebar:
 
     solution_df = con.execute(ANSWER).df()
 
+#------------------------------------------
+
 consigne = exercice.loc[0, "consigne"]
 
 st.header(consigne)
-query_user = st.text_area("Tapez votre code SQL ci-dessous", key="user_input")
 
 col1, col2, col3, col4 = st.columns(4)
 
@@ -92,6 +104,7 @@ for col, days in zip([col1, col2, col3], [2, 7, 21]):
         con.execute(
             f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercice_name = '{exercice_name}'"
         )
+        st.session_state["user_input"] = ""  # ← clear le text_area
         st.rerun()
 
 # bouton reset dans la col4
@@ -99,7 +112,10 @@ if col4.button("Reset"):
     con.execute(
         f"UPDATE memory_state SET last_reviewed = '2000-01-01' WHERE exercice_name = '{exercice_name}'"
     )
+    st.session_state["user_input"] = ""  # ← clear le text_area
     st.rerun()
+
+query_user = st.text_area("Tapez votre code SQL ci-dessous", key="user_input")
 
 
 if query_user:
@@ -115,4 +131,7 @@ with tab2:
         st.dataframe(df_table)
 
 with tab3:
-    st.code(ANSWER, language="sql")
+    if not query_user:
+        st.warning("Essaie quelque chose au moins ! 💪")
+    else:
+        st.code(ANSWER, language="sql")
