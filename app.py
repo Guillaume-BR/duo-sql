@@ -27,6 +27,7 @@ if "db_initialized" not in st.session_state:
     exec(open("init_db.py").read())
     st.session_state["db_initialized"] = True
 
+
 def verify_sql_results(sql_query: str) -> None:
     """
     Verify the results of a SQL query against the expected solution.
@@ -62,15 +63,15 @@ st.markdown(
     """
 )
 
-#--------------------------------------
+# --------------------------------------
 # SIDEBAR
-#--------------------------------------
+# --------------------------------------
 with st.sidebar:
     available_themes = con.execute("SELECT DISTINCT theme FROM memory_state").df()
     option = st.selectbox(
         "Que veux tu réviser  ?",
         available_themes["theme"].unique(),
-        #index=None,
+        # index=None,
         placeholder="Choisis une option",
     )
 
@@ -95,7 +96,7 @@ with st.sidebar:
 
     solution_df = con.execute(ANSWER).df()
 
-#------------------------------------------
+# ------------------------------------------
 
 consigne = exercice.loc[0, "consigne"]
 

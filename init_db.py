@@ -6,8 +6,9 @@ import duckdb
 con = duckdb.connect(database="bdd/sql_exercices.duckdb", read_only=False)
 
 
-#Création 
+# Création
 REQUIRED_METADATA = {"theme", "consigne", "tables"}
+
 
 def parse_sql_file(filepath):
     """
@@ -15,21 +16,22 @@ def parse_sql_file(filepath):
     """
     with open(filepath, "r") as f:
         lines = f.readlines()
-    
+
     metadata = {}
     for line in lines:
         if line.startswith("--"):
             key, _, value = line[3:].strip().partition(":")
             metadata[key.strip()] = value.strip()
-    
+
     missing = REQUIRED_METADATA - metadata.keys()
     if missing:
         raise ValueError(f"Métadonnées manquantes dans {filepath} : {missing}")
-    
+
     metadata["exercice_name"] = os.path.basename(filepath)[:-4]
     metadata["tables"] = metadata.get("tables", "").split(", ")
     metadata["last_reviewed"] = "2000-01-01"
     return metadata
+
 
 rows = []
 for f in sorted(os.listdir("answers")):
@@ -49,5 +51,5 @@ for files in os.listdir("data"):
         df = pd.read_csv(f"data/{files}")
         con.execute(f"CREATE OR REPLACE TABLE {name} AS SELECT * FROM df")
 
-#On ferme la connexion à la base de données
+# On ferme la connexion à la base de données
 con.close()
