@@ -1,4 +1,7 @@
---Classement des univers par montant total des ventes
+-- theme: Mix
+-- consigne: Affiche le classement des univers par montant total des ventes
+-- tables: ventes, products, univers_categorie
+
 WITH total_par_univers AS (
     SELECT u.univers_name, SUM(v.montant_total) AS total_ventes
     FROM ventes v
@@ -8,5 +11,6 @@ WITH total_par_univers AS (
         ON p.produit_id = u.categorie_id
     GROUP BY u.univers_name
 )
+
 SELECT *, DENSE_RANK() OVER (ORDER BY total_ventes DESC) AS rank_univers
 FROM total_par_univers;

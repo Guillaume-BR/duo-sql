@@ -1,4 +1,7 @@
--- Convertir 1 à 7 en lundi à dimanche
+-- theme: Case When
+-- consigne: Ajoute une colonne avec le nom des jours de semaine (lundi = 1)
+-- tables: retail
+
 SELECT 
     *,
     CASE 

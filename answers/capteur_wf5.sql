@@ -1,4 +1,6 @@
--- Classement pour chaque semaine des capteurs en fonction du nombre total de visiteurs
+-- theme: Windows Functions
+-- consigne: Affiche le nombre de visiteurs et le classement des capteurs par semaine
+-- tables: capteurs
 
 WITH total_per_week AS (
 SELECT 

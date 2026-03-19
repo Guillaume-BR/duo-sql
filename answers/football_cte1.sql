@@ -1,4 +1,7 @@
--- Pourcentage de victoires à domicile, à l'extérieur et de matchs nuls
+-- theme: Mix
+-- consigne: Affiche le pourcentage de victoires à domicile, à l'extérieur et de matchs nuls
+-- tables: football
+
 WITH total_matches AS (
     SELECT COUNT(*) AS total
     FROM football

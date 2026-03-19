@@ -1,4 +1,7 @@
--- Trouver l’équipe la plus défensive
+-- theme: CTE
+-- consigne: Trouver l’équipe la plus défensive
+-- tables: football
+
 WITH goals_team AS (
     SELECT HomeTeam AS team, GoalsAwayTeam AS goals FROM football
     UNION ALL

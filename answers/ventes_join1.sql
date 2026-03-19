@@ -1,4 +1,7 @@
--- trouver les ventes qui n'ont pas d'Univers
+-- theme: Joins
+-- consigne: Affiche les ventes qui n'ont pas d'Univers
+-- tables: ventes, categorie_produit, univers_categorie
+
 SELECT * 
 FROM ventes
 LEFT JOIN categorie_produit USING(produit_id)

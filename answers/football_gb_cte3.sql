@@ -1,4 +1,9 @@
--- afficher le classement du championnat de football en fonction du nombre de victoire
+-- theme: Mix
+-- consigne: Afficher le classement du championnat de football et le nombre de points (victoire = 3, match nul = 1, défaite = 0)
+-- tables: football
+
+
+-- 
 WITH points AS (
     SELECT
         HomeTeam AS Team,

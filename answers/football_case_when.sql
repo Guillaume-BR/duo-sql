@@ -1,4 +1,7 @@
--- ajouter une colonne avec le nom du vainqueur du match
+-- theme: Case When
+-- consigne: Ajouter une colonne avec le nom du vainqueur du match
+-- tables: football
+
 SELECT 
     *,
     CASE 

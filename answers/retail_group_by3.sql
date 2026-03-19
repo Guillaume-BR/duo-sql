@@ -1,4 +1,7 @@
--- Transactions par magasin et mois
+-- theme: Group By
+-- consigne: Affiche le nombre de transactions par magasin et par mois
+-- tables: retail
+
 SELECT 
     store_name, 
     month, 

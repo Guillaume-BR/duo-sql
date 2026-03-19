@@ -1,4 +1,7 @@
---Classement du prix moyen au m2 par commune
+-- theme: Group By
+-- consigne: Affiche le classement décroissant des communes par prix moyen au m2
+-- tables: appartements
+
 SELECT 
     Commune, 
     AVG(valeur_fonciere / Surface_Carrez_du_1er_lot) AS prix_m2

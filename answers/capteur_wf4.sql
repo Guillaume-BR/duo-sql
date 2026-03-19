@@ -1,5 +1,7 @@
---Trouver le pourcentage de changement du nombre de visiteurs d'une semaine sur l'autre 
---pour le même jour et le même capteur 
+-- theme: Windows Functions
+-- consigne: Ajouter la différence et le pourcentage de différence de visiteurs entre deux mêmes jours de la semaine consécutifs pour chaque capteur
+-- tables: capteurs
+
 SELECT 
     *,
     LAG(visiteurs_count) 

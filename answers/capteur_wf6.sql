@@ -1,6 +1,6 @@
--- On souhaite avoir la liste des date pour lesquelles
--- le capteur A ou B ont dépassé les 6000 visiteurs journaliers
--- en moyenne sur les 4 derniers jours similaires
+-- theme: Windows Functions
+-- consigne: On souhaite avoir la liste des dates pour lesquelles le capteur A ou B ont dépassé les 6000 visiteurs journaliers en moyenne sur les 4 derniers jours similaires.
+-- tables: capteurs
 
 SELECT 
     *,

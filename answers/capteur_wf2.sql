@@ -1,6 +1,9 @@
---Trouver la moyenne glissante sur les 7 derniers jours des visiteurs selon le capteur
+-- theme: Windows Functions
+-- consigne: Affiche la moyenne glissante sur les 7 derniers jours des visiteurs selon le capteur
+-- tables: capteurs
+
 SELECT 
-    capteurs.*,
+    *,
     AVG(visiteurs_count) 
         OVER(
             PARTITION BY capteur_id

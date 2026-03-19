@@ -1,4 +1,7 @@
--- Semaine vs week-end à Madrid
+-- theme: Mix
+-- consigne: Affiche le nombre de transactions à Madrid la semaine et le WE
+-- tables: retail
+
 SELECT 
     CASE 
         WHEN day_of_week >= 6 THEN 'Weekend'

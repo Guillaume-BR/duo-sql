@@ -1,4 +1,7 @@
---Trouver l’équipe avec le meilleur goal average
+-- theme: Mix
+-- consigne: Trouver l’équipe avec le meilleur goal average
+-- tables: football
+
 WITH goals_team AS (
     SELECT HomeTeam AS team, GoalsHomeTeam AS goals_for, GoalsAwayTeam AS goals_against FROM football
     UNION ALL

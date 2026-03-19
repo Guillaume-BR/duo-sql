@@ -1,5 +1,7 @@
---Trouver la moyenne mobile sur les 7 derniers même jour de la semaine du nombre de visiteurs selon le capteur
---et créer un seuil à 80 % de cette moyenne mobile
+-- theme: Windows Functions
+-- consigne: Ajouter à la table la moyenne mobile sur les 7 derniers même jour de la semaine du nombre de visiteurs selon le capteur et créer un seuil à 80 % de cette moyenne mobile
+-- tables: capteurs
+
 SELECT 
     capteurs.*,
     AVG(visiteurs_count) 
