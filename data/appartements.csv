@@ -1,4 +1,4 @@
-,Date mutation,valeur_fonciere,No voie,Type de voie,Code voie,Voie,Code postal,Commune,Code departement,Code commune,Surface_Carrez_du_1er_lot,Nombre pieces principales,Surface terrain
+,Date_mutation,valeur_fonciere,No_voie,Type_de_voie,Code_voie,Voie,Code_postal,Commune,Code_departement,Code_commune,Surface_Carrez_du_1er_lot,Nombre_pieces_principales,Surface_terrain
 0,04/01/2022,208000.0,64.0,RUE,0010,DE L ABBE BONPAIN,59700.0,MARCQ EN BAROEUL,59,378,57.69,3.0,
 1,04/01/2022,113000.0,1.0,RUE,0260,GUY MOCQUET,59113.0,SECLIN,59,560,45.72,3.0,
 2,03/01/2022,185000.0,22.0,RUE,8749,DE TREVISE,59000.0,LILLE,59,350,62.83,3.0,
