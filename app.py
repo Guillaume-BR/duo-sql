@@ -22,10 +22,12 @@ if "sql_exercices.duckdb" not in os.listdir("bdd"):
     exec(open("init_db.py").read())
     # subprocess.run(["python", "init_db.py"])
 
-
 if "db_initialized" not in st.session_state:
     exec(open("init_db.py").read())
     st.session_state["db_initialized"] = True
+
+if "user_input" not in st.session_state:
+    st.session_state["user_input"] = ""
 
 
 def verify_sql_results(sql_query: str) -> None:
@@ -67,12 +69,17 @@ st.markdown(
 # SIDEBAR
 # --------------------------------------
 with st.sidebar:
+    if st.session_state.get("reset_theme"):
+        st.session_state["selected_theme"] = None
+        st.session_state["reset_theme"] = False
+
     available_themes = con.execute("SELECT DISTINCT theme FROM memory_state").df()
     option = st.selectbox(
         "Que veux tu réviser  ?",
-        available_themes["theme"].unique(),
+        sorted(available_themes["theme"].unique()),
         # index=None,
         placeholder="Choisis une option",
+        key = "selected_theme"
     )
 
     if option:
@@ -102,6 +109,7 @@ consigne = exercice.loc[0, "consigne"]
 
 st.header(consigne)
 
+# Boutons de répétition espacée
 col1, col2, col3, col4 = st.columns(4)
 
 for col, days in zip([col1, col2, col3], [2, 7, 21]):
@@ -110,7 +118,8 @@ for col, days in zip([col1, col2, col3], [2, 7, 21]):
         con.execute(
             f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercice_name = '{exercice_name}'"
         )
-        st.session_state["user_input"] = ""  # ← clear le text_area
+        st.session_state["user_input"] = ""
+        st.session_state["reset_theme"] = True
         st.rerun()
 
 # bouton reset dans la col4
@@ -118,12 +127,11 @@ if col4.button("Reset"):
     con.execute(
         f"UPDATE memory_state SET last_reviewed = '2000-01-01' WHERE exercice_name = '{exercice_name}'"
     )
-    st.session_state["user_input"] = ""  # ← clear le text_area
+    st.session_state["user_input"] = "" 
+    st.session_state["reset_theme"] = True
     st.rerun()
 
 query_user = st.text_area("Tapez votre code SQL ci-dessous", key="user_input")
-
-
 if query_user:
     verify_sql_results(query_user)
 

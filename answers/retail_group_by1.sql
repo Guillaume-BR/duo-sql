@@ -2,8 +2,6 @@
 -- consigne: Affiche le nombre total de transactions par secteur d'activité le samedi (6).
 -- tables: retail
 
-
--- 
 SELECT 
     market_type, 
     SUM(nb_transac) AS total_transactions

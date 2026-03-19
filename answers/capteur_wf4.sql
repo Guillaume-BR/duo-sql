@@ -5,7 +5,7 @@
 SELECT 
     *,
     LAG(visiteurs_count) 
-        OVER(PARTITION BY capteurs_id, weekday
+        OVER(PARTITION BY capteur_id, weekday
              ORDER BY date) AS lag_visiteurs_count,
      visiteurs_count - lag_visiteurs_count AS diff_visiteurs_count,
     ROUND(diff_visiteurs_count / lag_visiteurs_count * 100, 2) AS pct_change

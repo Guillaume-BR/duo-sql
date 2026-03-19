@@ -1,6 +1,6 @@
 -- theme: Joins
 -- consigne: Afficher le total des ventes par univers et produit
--- tables: ventes, products
+-- tables: ventes, products, univers_categorie
 
 SELECT u.univers_name, p.nom AS produit, SUM(v.montant_total) AS total_ventes
 FROM ventes v

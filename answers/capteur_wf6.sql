@@ -9,5 +9,5 @@ SELECT
             ORDER BY date 
             ROWS BETWEEN 3 PRECEDING AND CURRENT ROW
             ) as avg_day
-FROM df
+FROM capteurs
 QUALIFY avg_day > 6000

@@ -1,9 +1,9 @@
 -- theme: Group By
--- consigne: Affiche le montant des ventes par clients
+-- consigne: Affiche le montant des achats par clients
 -- tables: ventes
 
 SELECT 
     client, 
     SUM(montant)
-FROM ventes
+FROM achats
 GROUP BY client

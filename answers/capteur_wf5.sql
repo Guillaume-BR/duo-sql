@@ -7,7 +7,7 @@ SELECT
     capteur_id,
     WEEK(TRY_CAST(date AS DATE)) AS week,
     SUM(visiteurs_count) AS total_visiteurs
-FROM df
+FROM capteurs
 GROUP BY week, capteur_id
 )
 
