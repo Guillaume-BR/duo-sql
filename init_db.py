@@ -1,71 +1,53 @@
 import io
+import os
 import pandas as pd
 import duckdb
 
-con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
+con = duckdb.connect(database="bdd/sql_exercices.duckdb", read_only=False)
 
 
-# -------------------------------------------
-# EXERCICES LIST
-# -------------------------------------------
+#Création 
+REQUIRED_METADATA = {"theme", "consigne", "tables"}
 
-data = {
-    "theme": ["Joins", "Joins"],
-    "exercice_name": ["beverages_and_food", "size_and_trademark"],
-    "tables": [["beverages", "food_items"], ["size", "trademark"]],
-    "last_reviewed": ["2000-01-02", "2000-01-01"],
-}
+def parse_sql_file(filepath):
+    """
+    Fonction pour parser les fichiers sql présents dans le dossier data et récupérer si possible les métadonnées
+    """
+    with open(filepath, "r") as f:
+        lines = f.readlines()
+    
+    metadata = {}
+    for line in lines:
+        if line.startswith("--"):
+            key, _, value = line[3:].strip().partition(":")
+            metadata[key.strip()] = value.strip()
+    
+    missing = REQUIRED_METADATA - metadata.keys()
+    if missing:
+        raise ValueError(f"Métadonnées manquantes dans {filepath} : {missing}")
+    
+    metadata["exercice_name"] = os.path.basename(filepath)[:-4]
+    metadata["tables"] = metadata.get("tables", "").split(", ")
+    metadata["last_reviewed"] = "2000-01-01"
+    return metadata
 
-memory_state_df = pd.DataFrame(data)
+rows = []
+for f in sorted(os.listdir("answers")):
+    if f.endswith(".sql"):
+        try:
+            rows.append(parse_sql_file(f"answers/{f}"))
+        except ValueError as e:
+            logging.warning(f"Fichier ignoré : {e}")
+
+memory_state_df = pd.DataFrame(rows)
 con.execute("CREATE OR REPLACE TABLE memory_state AS SELECT * FROM memory_state_df")
 
 
-# ----------------------------------------------
-# CROSS JOIN EXERCISE TABLES
-# ----------------------------------------------
+for files in os.listdir("data"):
+    if files.endswith(".csv"):
+        name = files[:-4]
+        df = pd.read_csv(f"data/{files}")
+        con.execute(f"CREATE OR REPLACE TABLE {name} AS SELECT * FROM df")
 
-beverages = """
-beverage,price
-orange juice,2.5
-Expresso,2
-Tea,3
-Cappuccino,1.6
-"""
-
-beverages = pd.read_csv(io.StringIO(beverages))
-con.execute("CREATE OR REPLACE TABLE beverages AS SELECT * FROM beverages")
-
-food_items = """
-food_item,food_price
-cookie juice,2.5
-chocolatine,2
-muffin,3
-croissant,1.6
-"""
-
-food_items = pd.read_csv(io.StringIO(food_items))
-con.execute("CREATE OR REPLACE TABLE food_items AS SELECT * FROM food_items")
-
-
-size = """
-size
-XS
-M
-L
-XL
-"""
-
-trademark = """
-trademark
-Nike
-Asphalte
-Abercrombie
-Lewis
-"""
-
-size = pd.read_csv(io.StringIO(size))
-trademark = pd.read_csv(io.StringIO(trademark))
-con.execute("CREATE OR REPLACE TABLE size AS SELECT * FROM size")
-con.execute("CREATE OR REPLACE TABLE trademark AS SELECT * FROM trademark")
-
+#On ferme la connexion à la base de données
 con.close()

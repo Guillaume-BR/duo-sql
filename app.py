@@ -11,12 +11,16 @@ if "data" not in os.listdir():
     logging.error("Creating data/ folder")
     os.mkdir("data")
 
-if "sql_exercices_sql.duckdb" not in os.listdir("data"):
+if "sql_exercices.duckdb" not in os.listdir("data"):
     logging.error("os.listdir('data/')")
-    logging.error("Creating data/sql_exercices_sql.duckdb database")
+    logging.error("Creating bdd/sql_exercices.duckdb database")
     exec(open("init_db.py").read())
     # subprocess.run(["python", "init_db.py"])
 
+
+if "db_initialized" not in st.session_state:
+    exec(open("init_db.py").read())
+    st.session_state["db_initialized"] = True
 
 def verify_sql_results(sql_query: str) -> None:
     """
@@ -25,8 +29,12 @@ def verify_sql_results(sql_query: str) -> None:
     :param sql_query: The SQL query to be executed and verified.
     :type sql_query: str
     """
-    result = con.execute(sql_query).df()
-    st.dataframe(result)
+    try:
+        result = con.execute(sql_query).df()
+        st.dataframe(result)
+    except Exception as e:
+        st.warning(f"Il y a une erreur dans ta requête SQL : {e}")
+        return
 
     try:
         result = result[solution_df.columns]
@@ -41,25 +49,27 @@ def verify_sql_results(sql_query: str) -> None:
         )
 
 
-con = duckdb.connect(database="data/sql_exercices_sql.duckdb", read_only=False)
+con = duckdb.connect(database="bdd/sql_exercices.duckdb", read_only=False)
 
 st.markdown(
-    """# Duo SQL App
-       ## Pratiquez le SQL et progressez grâce au système de répétition espacée !
-         """
+    """# Duo SQL App \n
+        Pratiquez le SQL et progressez grâce au système de répétition espacée !
+    """
 )
 
+#--------------------------------------
+# SIDEBAR
+#--------------------------------------
 with st.sidebar:
     available_themes = con.execute("SELECT DISTINCT theme FROM memory_state").df()
     option = st.selectbox(
         "Que veux tu réviser  ?",
         available_themes["theme"].unique(),
-        index=None,
+        #index=None,
         placeholder="Choisis une option",
     )
 
     if option:
-        st.write("Options sélectionnée :", option)
         select_exercise_query = f"SELECT * FROM memory_state WHERE theme = '{option}'"
     else:
         select_exercise_query = "SELECT * FROM memory_state"
@@ -71,7 +81,7 @@ with st.sidebar:
         .reset_index(drop=True)
     )
 
-    st.write("Exercice du thème sélectionné :")
+    st.write("Exercices du thème sélectionné :")
     st.dataframe(exercice)
 
     exercice_name = exercice.loc[0, "exercice_name"]
@@ -80,21 +90,32 @@ with st.sidebar:
 
     solution_df = con.execute(ANSWER).df()
 
-st.header("Tapez votre code SQL ci-dessous")
-query_user = st.text_area("Entrez du texte là", key="user_input")
+#------------------------------------------
+
+consigne = exercice.loc[0, "consigne"]
+
+st.header(consigne)
 
 col1, col2, col3, col4 = st.columns(4)
 
-for col, days in zip([col1, col2, col3],[2,7,21]):
-    if col.button(f'Revoir dans {days} jours'):
+for col, days in zip([col1, col2, col3], [2, 7, 21]):
+    if col.button(f"Revoir dans {days} jours"):
         next_review = datetime.now() + timedelta(days=days)
-        con.execute(f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercice_name = '{exercice_name}'")
+        con.execute(
+            f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercice_name = '{exercice_name}'"
+        )
+        st.session_state["user_input"] = ""  # ← clear le text_area
         st.rerun()
 
-#bouton reset dans la col4
-if col4.button('Reset'):
-    con.execute(f"UPDATE memory_state SET last_reviewed = '2000-01-01' WHERE exercice_name = '{exercice_name}'")
+# bouton reset dans la col4
+if col4.button("Reset"):
+    con.execute(
+        f"UPDATE memory_state SET last_reviewed = '2000-01-01' WHERE exercice_name = '{exercice_name}'"
+    )
+    st.session_state["user_input"] = ""  # ← clear le text_area
     st.rerun()
+
+query_user = st.text_area("Tapez votre code SQL ci-dessous", key="user_input")
 
 
 if query_user:
@@ -110,4 +131,7 @@ with tab2:
         st.dataframe(df_table)
 
 with tab3:
-    st.code(ANSWER, language="sql")
+    if not query_user:
+        st.warning("Essaie quelque chose au moins ! 💪")
+    else:
+        st.code(ANSWER, language="sql")
