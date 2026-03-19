@@ -11,8 +11,13 @@ if "data" not in os.listdir():
     logging.error("Creating data/ folder")
     os.mkdir("data")
 
-if "sql_exercices.duckdb" not in os.listdir("data"):
-    logging.error("os.listdir('data/')")
+if "bdd" not in os.listdir():
+    logging.error("os.listdir()")
+    logging.error("Creating bdd/ folder")
+    os.mkdir("bdd")
+
+if "sql_exercices.duckdb" not in os.listdir("bdd"):
+    logging.error("os.listdir('bdd/')")
     logging.error("Creating bdd/sql_exercices.duckdb database")
     exec(open("init_db.py").read())
     # subprocess.run(["python", "init_db.py"])
