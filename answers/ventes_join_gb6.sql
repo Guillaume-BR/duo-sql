@@ -2,7 +2,6 @@
 -- consigne: Affiche par ordre décroissant le pourcentage de chaque produit dans son univers 
 -- tables: ventes, products, univers_categorie
 
--- Pourcentage de chaque produit dans son univers
 WITH total_univers AS (
     SELECT u.univers_name, SUM(v.montant_total) AS total_univers
     FROM ventes v

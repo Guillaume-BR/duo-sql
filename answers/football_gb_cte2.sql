@@ -2,7 +2,6 @@
 -- consigne: Afficher le total décroissants du nombre de buts de chaque équipe
 -- tables: football
 
--- 
 WITH goals_team AS (
     SELECT HomeTeam AS team, GoalsHomeTeam AS goals FROM football
     UNION ALL

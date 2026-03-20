@@ -42,7 +42,16 @@ for f in sorted(os.listdir("answers")):
             logging.warning(f"Fichier ignoré : {e}")
 
 memory_state_df = pd.DataFrame(rows)
-con.execute("CREATE OR REPLACE TABLE memory_state AS SELECT * FROM memory_state_df")
+con.execute("""
+    CREATE TABLE IF NOT EXISTS memory_state AS 
+    SELECT * FROM memory_state_df
+""")
+
+con.execute("""
+    INSERT INTO memory_state 
+    SELECT * FROM memory_state_df
+    WHERE exercice_name NOT IN (SELECT exercice_name FROM memory_state)
+""")
 
 
 for files in os.listdir("data"):
