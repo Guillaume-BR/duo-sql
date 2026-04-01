@@ -21,7 +21,7 @@ DuoSQL est une application Streamlit qui vous aide à maîtriser le SQL en vous 
 ### Prérequis
 
 - Python 3.9+
-- pip
+- [uv](https://docs.astral.sh/uv/) — gestionnaire de dépendances
 
 ### Étapes
 
@@ -30,14 +30,14 @@ DuoSQL est une application Streamlit qui vous aide à maîtriser le SQL en vous 
 git clone https://github.com/votre-utilisateur/duosql.git
 cd duosql
 
-# 2. Installer les dépendances
-pip install -r requirements.txt
+# 2. Installer les dépendances via uv
+uv sync
 
 # 3. Initialiser la base de données
-python init_db.py
+uv run python init_db.py
 
 # 4. Lancer l'application
-streamlit run app.py
+uv run streamlit run app.py
 ```
 
 L'application est accessible sur `http://localhost:8501`.
@@ -49,8 +49,9 @@ L'application est accessible sur `http://localhost:8501`.
 ```
 duosql/
 ├── app.py              # Application principale Streamlit
-├── init_db.py          # Script d'initialisation de la base DuckDB
+├── init_db.py          # Script d'initialisation de la base
 ├── requirements.txt    # Dépendances Python
+├── data/               # contient les csv 
 ├── answers/            # Fichiers .sql contenant les solutions
 │   ├── exercice_1.sql
 │   └── ...
@@ -91,11 +92,15 @@ L'exercice affiché est toujours celui dont la date de révision (`last_reviewed
 
 ## 📦 Dépendances principales
 
+Gérées via **uv** :
+
 ```
 streamlit
 duckdb
 pandas
 ```
+
+Pour ajouter une dépendance : `uv add nom-du-package`
 
 ---
 
